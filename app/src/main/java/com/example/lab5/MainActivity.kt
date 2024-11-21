@@ -281,11 +281,10 @@ data class TransformerParameters(
     val omega: Double,
     val tv: Double,
     val kp: Double,
-    val Pm: Double,
-    val Tm: Int
+    val pm: Double,
+    val tm: Int
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReliabilityCalculator2() {
     var result by remember { mutableStateOf("") }
@@ -296,8 +295,8 @@ fun ReliabilityCalculator2() {
             omega = 0.01,
             tv = 45.0/1000,
             kp = 4.0/1000,
-            Pm = 5.12e3,
-            Tm = 6451
+            pm = 5.12e3,
+            tm = 6451
         )
     }
 
@@ -325,8 +324,8 @@ fun ReliabilityCalculator2() {
         Text("Частота відмов (ω): ${transformer35kV.omega} рік⁻¹")
         Text("Середній час відновлення (tв): ${transformer35kV.tv * 1000} · 10⁻³ року")
         Text("Середній час планового простою (kп): ${transformer35kV.kp * 1000} · 10⁻³")
-        Text("Потужність (Pм): ${String.format("%.2f", transformer35kV.Pm)} кВт")
-        Text("Час використання максимального навантаження (Tм): ${transformer35kV.Tm} год/рік")
+        Text("Потужність (Pм): ${String.format("%.2f", transformer35kV.pm)} кВт")
+        Text("Час використання максимального навантаження (Tм): ${transformer35kV.tm} год/рік")
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -358,12 +357,12 @@ fun ReliabilityCalculator2() {
 
                     val emergencyShortage = transformer35kV.omega *
                             transformer35kV.tv *
-                            transformer35kV.Pm *
-                            transformer35kV.Tm
+                            transformer35kV.pm *
+                            transformer35kV.tm
 
                     val plannedShortage = transformer35kV.kp *
-                            transformer35kV.Pm *
-                            transformer35kV.Tm
+                            transformer35kV.pm *
+                            transformer35kV.tm
 
                     val totalLosses = emergencyLossVal * emergencyShortage +
                             plannedLossVal * plannedShortage
